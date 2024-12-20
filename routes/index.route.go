@@ -14,7 +14,8 @@ func InitRoutes(app *gin.Engine) {
 	route.GET("/:id", user_controller.GetUserById)
 	route.POST("/add", user_controller.Store)
 	route.PATCH("/update/:id", user_controller.UpdateUser)
+	// route.PUT("/update/data/:id", user_controller.UpdateUser)
 	route.DELETE("/delete/:id", user_controller.DeleteUser)
-	route.GET("/helloasss", user_controller.Hello)
+	route.GET("/hello", user_controller.Hello)
 
 }

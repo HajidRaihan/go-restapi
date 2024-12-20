@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"gin-gonic-gorm/configs"
+	"gin-gonic-gorm/configs/app_config"
 	"gin-gonic-gorm/database"
 	"gin-gonic-gorm/routes"
 	"log"
@@ -30,6 +31,6 @@ func BootstrapApp() {
 	routes.InitRoutes(app)
 
 	// Run the server
-	// app.Run(app_config.PORT)
-	app.Run(":8080")
+	app.Run(app_config.PORT)
+	// app.Run(":8080")
 }

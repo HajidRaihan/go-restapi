@@ -7,6 +7,7 @@ import (
 	"gin-gonic-gorm/requests"
 	"gin-gonic-gorm/responses"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -15,7 +16,7 @@ import (
 func GetAllUser(ctx *gin.Context) {
 	users := new([]models.User)
 
-	err := database.DB.Find(&users).Error
+	err := database.DB.Table("users").Find(&users).Error
 
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
@@ -162,6 +163,41 @@ func DeleteUser(ctx *gin.Context) {
 
 	ctx.JSON(200, gin.H{
 		"message": "User deleted",
+	})
+}
+
+func GetUserPaginated(ctx *gin.Context) {
+	page := ctx.Query("page")
+	if page == "" {
+		page = "1"
+	}
+
+	perPage := ctx.Query("perPage")
+
+	if perPage == "" {
+		perPage = "10"
+	}
+
+	users := new([]models.User)
+
+	perPageInt, _ := strconv.Atoi(perPage)
+	pageInt, _ := strconv.Atoi(page)
+
+	if pageInt < 1 {
+		pageInt = 1
+	}
+
+	err := database.DB.Table("users").Offset((pageInt - 1) * perPageInt).Limit(perPageInt).Find(&users).Error
+
+	if err != nil {
+		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, gin.H{
+		"data":     users,
+		"page":     pageInt,
+		"per_page": perPageInt,
 	})
 }
 

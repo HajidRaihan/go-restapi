@@ -63,9 +63,8 @@ func Store(ctx *gin.Context) {
 	}
 
 	userEmailExist := new(models.User)
-
 	errUserEmailExist := database.DB.Table("users").Where("email = ?", userReq.Email).Find(&userEmailExist).Error
-
+	
 	if errUserEmailExist != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server pskjhkj"})
 		return
@@ -193,7 +192,7 @@ func GetUserPaginated(ctx *gin.Context) {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-
+ 
 	ctx.JSON(200, gin.H{
 		"data":     users,
 		"page":     pageInt,

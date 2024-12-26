@@ -1,6 +1,7 @@
 package file_controller
 
 import (
+	"gin-gonic-gorm/constanta"
 	"gin-gonic-gorm/utils"
 	"path/filepath"
 
@@ -11,7 +12,7 @@ func HandleUploadFile(ctx *gin.Context) {
 	fileHeader, _ := ctx.FormFile("file")
 
 	if fileHeader == nil {
-		ctx.AbortWithStatusJSON(400, gin.H{"message": "file is required"})
+		ctx.JSON(400, gin.H{"message": "file is required"})
 		return
 	}
 
@@ -47,4 +48,35 @@ func HandleUploadFile(ctx *gin.Context) {
 	}
 
 	ctx.JSON(200, gin.H{"message": "file uploaded successfully"})
+}
+
+func HandleRemoveFile(ctx *gin.Context) {
+	filename := ctx.Param("filename")
+
+	if filename == "" {
+		ctx.JSON(400, gin.H{"message": "filename is required"})
+	}
+
+	err := utils.RemoveFile(constanta.DIR_FILE + filename)
+
+	if err != nil {
+		ctx.JSON(500, gin.H{
+			"message": "error removing file",
+			"error":   err.Error(),
+		})
+		return
+	}
+	ctx.JSON(200, gin.H{
+		"message": "file deleted",
+	})
+}
+
+func SendStatus(ctx *gin.Context) {
+
+	filename := ctx.MustGet("filename").(string)
+
+	ctx.JSON(200, gin.H{
+		"message":   "ok",
+		"file_name": filename,
+	})
 }

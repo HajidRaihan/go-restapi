@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"mime/multipart"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -79,4 +80,13 @@ func SaveFile(ctx *gin.Context, fileHeader *multipart.FileHeader, filename strin
 	} else {
 		return true
 	}
+}
+
+func RemoveFile(filePath string) error {
+	err := os.Remove(filePath)
+	if err != nil {
+		log.Println("Failed ro remove file")
+		return err
+	}
+	return nil
 }

@@ -1,8 +1,8 @@
 package file_controller
 
 import (
-	"fmt"
-	"time"
+	"gin-gonic-gorm/utils"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,19 +15,34 @@ func HandleUploadFile(ctx *gin.Context) {
 		return
 	}
 
-	// file, errFile := fileHeader.Open()
-	// if errFile != nil {
-	// 	panic(errFile)
+	//validation file by extention
+	fileExtension := []string{".jpg", ".png", ".PNG", ".jpeg", ".pdf"}
+	isFileValidated := utils.FileValidationByExtension(fileHeader, fileExtension)
+	if !isFileValidated {
+		ctx.AbortWithStatusJSON(400, gin.H{
+			"message": "file not allowed",
+		})
+		return
+	}
+
+	//validation file by content-type
+	// fileType := []string{"image/jpg"}
+	// isFileValidated := utils.FileValidation(fileHeader, fileType)
+	// if !isFileValidated {
+	// 	ctx.AbortWithStatusJSON(400, gin.H{
+	// 		"message": "file not allowed",
+	// 	})
+	// 	return
 	// }
 
-	// extensionFile := filepath.Ext(fileHeader.Filename)
+	extensionFile := filepath.Ext(fileHeader.Filename)
 
-	// filename := "file_" + strconv.FormatInt(time.Now().Unix(), 10) + extensionFile
+	filename := utils.RandomFileName(extensionFile)
 
-	errUpload := ctx.SaveUploadedFile(fileHeader, fmt.Sprintf("./public/files/%d-%s", time.Now().Unix(), fileHeader.Filename))
+	isSaved := utils.SaveFile(ctx, fileHeader, filename)
 
-	if errUpload != nil {
-		ctx.JSON(500, gin.H{"message": "error uploading file", "error": errUpload.Error()})
+	if !isSaved {
+		ctx.JSON(500, gin.H{"message": "error uploading file"})
 		return
 	}
 

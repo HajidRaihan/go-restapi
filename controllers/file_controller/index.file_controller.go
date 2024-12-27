@@ -1,14 +1,22 @@
 package file_controller
 
 import (
+	"fmt"
 	"gin-gonic-gorm/constanta"
 	"gin-gonic-gorm/utils"
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func HandleUploadFile(ctx *gin.Context) {
+	claimsData := ctx.MustGet("claimsData").(jwt.MapClaims)
+	fmt.Println("claimsData => email => ", claimsData["email"])
+
+	userId := ctx.MustGet("user_id").(float64)
+	fmt.Println("userId => ", userId)
+
 	fileHeader, _ := ctx.FormFile("file")
 
 	if fileHeader == nil {
@@ -72,6 +80,11 @@ func HandleRemoveFile(ctx *gin.Context) {
 }
 
 func SendStatus(ctx *gin.Context) {
+	claimsData := ctx.MustGet("claimsData").(jwt.MapClaims)
+	fmt.Println("claimsData => email => ", claimsData["email"])
+
+	userId := ctx.MustGet("user_id").(float64)
+	fmt.Println("userId => ", userId)
 
 	filename := ctx.MustGet("filename").(string)
 

@@ -33,7 +33,7 @@ func InitRoutes(app *gin.Engine) {
 
 	authRoute := route.Group("file", middleware.AuthMiddleware)
 
-	authRoute.POST("/", file_controller.HandleUploadFile)
+	authRoute.POST("/upload", file_controller.HandleUploadFile)
 	authRoute.POST("/middleware", middleware.UploadFile, file_controller.SendStatus)
 	authRoute.DELETE("/:filename", file_controller.HandleRemoveFile)
 

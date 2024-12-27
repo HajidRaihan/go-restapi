@@ -5,6 +5,7 @@ import "os"
 var PORT = ":8000"
 var STATIC_ROUTE = "/public"
 var STATIC_DIR = "./public"
+var SECRET_KEY = "SECRET_KEY"
 
 func InitAppConfig() {
 	portEnv := os.Getenv("APP_PORT")
@@ -23,5 +24,9 @@ func InitAppConfig() {
 
 	if staticDirEnv != "" {
 		STATIC_DIR = staticDirEnv
+	}
+	secretKeyEnv := os.Getenv("SECRET_KEY")
+	if secretKeyEnv != "" {
+		SECRET_KEY = secretKeyEnv
 	}
 }

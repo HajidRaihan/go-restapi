@@ -1,0 +1,22 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /api/public/*filepath     --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
+[GIN-debug] HEAD   /api/public/*filepath     --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (4 handlers)
+[GIN-debug] POST   /api/login                --> gin-gonic-gorm/controllers/auth_controller.Login (4 handlers)
+[GIN-debug] GET    /api/user/                --> gin-gonic-gorm/controllers/user_controller.GetAllUser (5 handlers)
+[GIN-debug] GET    /api/user/paginate        --> gin-gonic-gorm/controllers/user_controller.GetUserPaginated (5 handlers)
+[GIN-debug] GET    /api/user/:id             --> gin-gonic-gorm/controllers/user_controller.GetUserById (5 handlers)
+[GIN-debug] POST   /api/user/add             --> gin-gonic-gorm/controllers/user_controller.Store (5 handlers)
+[GIN-debug] PATCH  /api/user/update/:id      --> gin-gonic-gorm/controllers/user_controller.UpdateUser (5 handlers)
+[GIN-debug] DELETE /api/user/delete/:id      --> gin-gonic-gorm/controllers/user_controller.DeleteUser (5 handlers)
+[GIN-debug] GET    /api/user/hello           --> gin-gonic-gorm/controllers/user_controller.Hello (5 handlers)
+[GIN-debug] POST   /api/file/upload          --> gin-gonic-gorm/controllers/file_controller.HandleUploadFile (5 handlers)
+[GIN-debug] POST   /api/file/middleware      --> gin-gonic-gorm/controllers/file_controller.SendStatus (6 handlers)
+[GIN-debug] DELETE /api/file/:filename       --> gin-gonic-gorm/controllers/file_controller.HandleRemoveFile (5 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :8000

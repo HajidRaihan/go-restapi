@@ -8,4 +8,5 @@ import (
 func InitConfig() {
 	app_config.InitAppConfig()
 	db_config.InitDatabaseConfig()
+	// log_config.DefaultLogging()
 }

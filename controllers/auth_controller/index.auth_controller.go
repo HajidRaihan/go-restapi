@@ -27,7 +27,9 @@ func Login(ctx *gin.Context) {
 		return
 	}
 
-	if loginReq.Password != "12345" {
+	passIsValid := utils.VerifyPassword(loginReq.Password, *user.Password)
+
+	if !passIsValid {
 		ctx.AbortWithStatusJSON(400, gin.H{"message": "Invalid email or password"})
 		return
 	}
@@ -47,5 +49,40 @@ func Login(ctx *gin.Context) {
 	ctx.JSON(200, gin.H{
 		"message": "login successfully",
 		"token":   token,
+	})
+}
+
+func Register(ctx *gin.Context) {
+	registerReq := new(requests.RegisterRequest)
+
+	errReq := ctx.ShouldBind(&registerReq)
+
+	if errReq != nil {
+		ctx.AbortWithStatusJSON(400, gin.H{"message": errReq.Error()})
+		return
+	}
+
+	user := new(models.User)
+
+	password := registerReq.Password
+
+	hashedPass, errHash := utils.HashPassword(password)
+
+	if errHash != nil {
+		ctx.AbortWithStatusJSON(500, gin.H{"message": "Failed to hash password"})
+		return
+	}
+
+	user.Name = &registerReq.Name
+	user.Email = &registerReq.Email
+	user.Password = &hashedPass
+
+	if err := database.DB.Table("users").Create(&user).Error; err != nil {
+		ctx.AbortWithStatusJSON(500, gin.H{"message": "Failed to create user"})
+		return
+	}
+
+	ctx.JSON(200, gin.H{
+		"message": "User created successfully",
 	})
 }

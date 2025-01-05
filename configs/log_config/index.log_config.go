@@ -49,5 +49,4 @@ func DefaultLogging(path ...string) {
 
 	gin.DefaultWriter = io.MultiWriter(f)
 	log.SetOutput(gin.DefaultWriter)
-
 }

@@ -19,6 +19,7 @@ func InitRoutes(app *gin.Engine) {
 
 	//AUTH ROUTE
 	route.POST("/login", auth_controller.Login)
+	route.POST("/register", auth_controller.Register)
 
 	userRoute.GET("/", user_controller.GetAllUser)
 	userRoute.GET("/paginate", user_controller.GetUserPaginated)
